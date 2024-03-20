@@ -1,49 +1,61 @@
 #!/bin/bash
 
-# ASCII Logo
-echo "                             A"
-echo "                             /_\\"
-echo "                     :       /_|_\\"
-echo "                    :::     /|__|_\\"
-echo "                   ::.::   /|_|__|_\\      :"
-echo "                  ::.:.:: /__|_|__|_\\    :.:"
-echo "                 :..:.:./_|__|__|__|\\  :.:.:"
-echo "                :.:..:./|__|___|__|__\\:.:..::"
-echo "               :.:..:../__|___|__|___|_\\..:..:::"
-echo " ..............:..:../_|__|___|___|___|\\..:..::::::::::::::::::::"
-echo "    ..........:..:../__|___|___|___|___|_\\..:::::::::::::::::::::"
-echo "::::::::::::::.:..:./_|__|___|___|___|___|\\::::::::::::::::::::::"
-echo "        .........../___|___|___|___|___|___\\...................."
-echo "                     /..!...!...!...!...!...\\................."
-echo "                    /________________________\\.............."
-
-# Function to display menu
-display_menu() {
-    echo "Multi-Tool Menu:"
-    echo "1. System Information"
-    echo "2. Exit"
-    echo
-}
-
-# Function to display system information
+# Function for system information
 system_info() {
     echo "System Information:"
     uname -a
-    echo
-    uptime
-    echo
-    free -h
-    echo
+    echo "CPU Information:"
+    lscpu
+    echo "Memory Information:"
+    free -m
 }
 
-# Main script
+# Function to get IP information from ipinfo.io
+ip_info() {
+    echo "Fetching IP information..."
+    curl -s ipinfo.io
+}
+
+# Function to display ASCII logo
+display_logo() {
+cat << "EOF"
+      A
+     /_\
+:      /_|_\
+:::    /|__|_\
+::.::  /|_|__|_\      :
+:.:.::/__|_|__|_\    :.:
+.:..:.:/_|__|__|__|\  :.:.:
+:..:.:./|__|___|__|__\:.:..::
+......../__|___|__|___|_\..:..::................
+........./_|__|___|___|___|\:..:..::::::::::::::::::::
+......../___|___|___|___|___\....................
+......./..!...!...!...!...!..\...............
+EOF
+}
+
+# Main menu
 while true; do
-    display_menu
-    read -p "Enter your choice: " choice
+    display_logo
+    echo "Select an option:"
+    echo "1. System Information"
+    echo "2. IP Information"
+    echo "3. Exit"
+    read choice
+
     case $choice in
-        1) system_info ;;
-        2) echo "Exiting..."; exit ;;
-        *) echo "Invalid option. Please choose again." ;;
+        1)
+            system_info
+            ;;
+        2)
+            ip_info
+            ;;
+        3)
+            echo "Exiting..."
+            exit 0
+            ;;
+        *)
+            echo "Invalid option. Please select again."
+            ;;
     esac
-    echo
 done
